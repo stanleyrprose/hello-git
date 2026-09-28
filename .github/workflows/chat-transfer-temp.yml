@@ -1,0 +1,19 @@
+name: Chat Transfer Temp
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download source
+        env:
+          CHAT_TRANSFER_URL: ${{ secrets.CHAT_TRANSFER_URL }}
+        run: curl -L --fail --retry 3 "$CHAT_TRANSFER_URL" -o instrumental.mp3
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: instrumental-mp3
+          path: instrumental.mp3
+          retention-days: 1
